@@ -1,14 +1,8 @@
-# PostgreSQL Docker Compose Templat
+# PostgreSQL Docker Compose Template
 
 A reusable PostgreSQL 17 Docker Compose template for Platform Engineering projects.
 
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
-
---
-
-A reusable PostgreSQL 17 Docker Compose template for Platform Engineering projects.
-
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
+This template provides a production-minded PostgreSQL deployment that can be reused across homelab, cloud, and self-hosted infrastructure.
 
 ---
 
@@ -18,68 +12,20 @@ This template is intended to be used as the standard PostgreSQL deployment acros
 - Environment-based configuration
 - Persistent Docker volume
 - Dedicated Docker network
-- Automatic restart
-- Health checks
+- Automatic restart policy
+- Built-in health checks
 - Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
+- Backup automation
+- Restore automation
+- Update automation
+- Makefile support
 - Production-ready defaults
 
 ---
 
 # Directory Structure
 
-```-
-
-# Features
-
-- PostgreSQL 17
-- Environment-based configuration
-- Persistent Docker volume
-- Dedicated Docker network
-- Automatic restart
-- Health checks
-- Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
-- Production-ready defaults
-
----
-
-# Directory Structure
-
-```e
-
-A reusable PostgreSQL 18 Docker Compose template for Platform Engineering projects.
-
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
-
----
-
-# Features
-
-- PostgreSQL 18
-- Environment-based configuration
-- Persistent Docker volume
-- Dedicated Docker network
-- Automatic restart
-- Health checks
-- Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
-- Production-ready defaults
-
----
-
-# Directory Structure
-
-```
+```text
 compose-postgres/
 ├── compose.yml
 ├── .env.example
@@ -102,13 +48,13 @@ Copy the example environment file.
 cp .env.example .env
 ```
 
-Edit the environment variables.
+Edit your configuration.
 
 ```bash
 vim .env
 ```
 
-Validate the configuration.
+Validate the Compose configuration.
 
 ```bash
 docker compose config
@@ -133,7 +79,7 @@ docker compose ps
 | Variable | Description |
 |----------|-------------|
 | COMPOSE_PROJECT_NAME | Docker project name |
-| POSTGRES_IMAGE | PostgreSQL image tag |
+| POSTGRES_IMAGE | PostgreSQL image |
 | POSTGRES_DB | Database name |
 | POSTGRES_USER | Database user |
 | POSTGRES_PASSWORD | Database password |
@@ -180,19 +126,19 @@ View logs.
 make logs
 ```
 
-Show container status.
+View running containers.
 
 ```bash
 make ps
 ```
 
-Create backup.
+Create a backup.
 
 ```bash
 make backup
 ```
 
-Restore backup.
+Restore a backup.
 
 ```bash
 make restore
@@ -216,27 +162,27 @@ make backup
 
 Backups are stored in:
 
-```
+```text
 backups/
 ```
 
 Example:
 
-```
-backups/postgres-20260711-214500.sql.gz
+```text
+backups/postgres-20260712-003000.sql.gz
 ```
 
 ---
 
 # Restore
 
-Restore a backup.
+Restore a previous backup.
 
 ```bash
 ./scripts/restore.sh backups/postgres-YYYYMMDD-HHMMSS.sql.gz
 ```
 
-The restore script requires confirmation before overwriting the database.
+The restore script asks for confirmation before modifying the database.
 
 ---
 
@@ -248,731 +194,35 @@ Safely update PostgreSQL.
 make update
 ```
 
-This will:
+The update process:
 
-- Pull the latest image
-- Recreate the container
-- Preserve database data
-- Display container status
+- Pulls the latest PostgreSQL image
+- Recreates the container
+- Preserves persistent data
+- Displays container status
 
 ---
 
 # Security Recommendations
 
 - Never commit `.env`
-- Always use strong passwords
-- Keep backups outside the Docker host
-- Limit access to PostgreSQL
-- Remove host port mappings when only Docker containers require access
-- Review PostgreSQL release notes before major upgrades
-
----
-
-# Recommended Usag# PostgreSQL Docker Compose Template
-
-A reusable PostgreSQL 17 Docker Compose template for Platform Engineering projects.
-
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
-
----
-
-# Features
-
-- PostgreSQL 17
-- Environment-based configuration
-- Persistent Docker volume
-- Dedicated Docker network
-- Automatic restart
-- Health checks
-- Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
-- Production-ready defaults
-
----
-
-# Directory Structure
-
-```
-compose-postgres/
-├── compose.yml
-├── .env.example
-├── .gitignore
-├── Makefile
-├── README.md
-└── scripts
-    ├── backup.sh
-    ├── restore.sh
-    └── update.sh
-```
-
----
-
-# Quick Start
-
-Copy the example environment file.
-
-```bash
-cp .env.example .env
-```
-
-Edit the environment variables.
-
-```bash
-vim .env
-```
-
-Validate the configuration.
-
-```bash
-docker compose config
-```
-
-Start PostgreSQL.
-
-```bash
-docker compose up -d
-```
-
-Verify the container.
-
-```bash
-docker compose ps
-```
-
----
-
-# Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| COMPOSE_PROJECT_NAME | Docker project name |
-| POSTGRES_IMAGE | PostgreSQL image tag |
-| POSTGRES_DB | Database name |
-| POSTGRES_USER | Database user |
-| POSTGRES_PASSWORD | Database password |
-| POSTGRES_PORT | Host port |
-| TZ | Time zone |
-
----
-
-# Make Commands
-
-Display available commands.
-
-```bash
-make help
-```
-
-Validate configuration.
-
-```bash
-make config
-```
-
-Start PostgreSQL.
-
-```bash
-make up
-```
-
-Stop PostgreSQL.
-
-```bash
-make down
-```
-
-Restart PostgreSQL.
-
-```bash
-make restart
-```
-
-View logs.
-
-```bash
-make logs
-```
-
-Show container status.
-
-```bash
-make ps
-```
-
-Create backup.
-
-```bash
-make backup
-```
-
-Restore backup.
-
-```bash
-make restore
-```
-
-Update PostgreSQL.
-
-```bash
-make update
-```
-
----
-
-# Backup
-
-Create a compressed PostgreSQL backup.
-
-```bash
-make backup
-```
-
-Backups are stored in:
-
-```
-backups/
-```
-
-Example:
-
-```
-backups/postgres-20260711-214500.sql.gz
-```
-
----
-
-# Restore
-
-Restore a backup.
-
-```bash
-./scripts/restore.sh backups/postgres-YYYYMMDD-HHMMSS.sql.gz
-```
-
-The restore script requires confirmation before overwriting the database.
-
----
-
-# Update
-
-Safely update PostgreSQL.
-
-```bash
-make update
-```
-
-This will:
-
-- Pull the latest image
-- Recreate the container
-- Preserve database data
-- Display container status
-
----
-
-# Security Recommendations
-
-- Never commit `.env`
-- Always use strong passwords
-- Keep backups outside the Docker host
-- Limit access to PostgreSQL
-- Remove host port mappings when only Docker containers require access
-- Review PostgreSQL release notes before major upgrade# PostgreSQL Docker Compose Template
-
-A reusable PostgreSQL 17 Docker Compose template for Platform Engineering projects.
-
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
-
----
-
-# Features
-
-- PostgreSQL 17
-- Environment-based configuration
-- Persistent Docker volume
-- Dedicated Docker network
-- Automatic restart
-- Health checks
-- Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
-- Production-ready defaults
-
----
-
-# Directory Structure
-
-```
-compose-postgres/
-├── compose.yml
-├── .env.example
-├── .gitignore
-├── Makefile
-├── README.md
-└── scripts
-    ├── backup.sh
-    ├── restore.sh
-    └── update.sh
-```
-
----
-
-# Quick Start
-
-Copy the example environment file.
-
-```bash
-cp .env.example .env
-```
-
-Edit the environment variables.
-
-```bash
-vim .env
-```
-
-Validate the configuration.
-
-```bash
-docker compose config
-```
-
-Start PostgreSQL.
-
-```bash
-docker compose up -d
-```
-
-Verify the container.
-
-```bash
-docker compose ps
-```
-
----
-
-# Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| COMPOSE_PROJECT_NAME | Docker project name |
-| POSTGRES_IMAGE | PostgreSQL image tag |
-| POSTGRES_DB | Database name |
-| POSTGRES_USER | Database user |
-| POSTGRES_PASSWORD | Database password |
-| POSTGRES_PORT | Host port |
-| TZ | Time zone |
-
----
-
-# Make Commands
-
-Display available commands.
-
-```bash
-make help
-```
-
-Validate configuration.
-
-```bash
-make config
-```
-
-Start PostgreSQL.
-
-```bash
-make up
-```
-
-Stop PostgreSQL.
-
-```bash
-make down
-```
-
-Restart PostgreSQL.
-
-```bash
-make restart
-```
-
-View logs.
-
-```bash
-make log# PostgreSQL Docker Compose Template
-
-A reusable PostgreSQL 17 Docker Compose template for Platform Engineering projects.
-
-This template is intended to be used as the standard PostgreSQL deployment across homelab, development, and production environments.
-
----
-
-# Features
-
-- PostgreSQL 17
-- Environment-based configuration
-- Persistent Docker volume
-- Dedicated Docker network
-- Automatic restart
-- Health checks
-- Log rotation
-- Backup script
-- Restore script
-- Update script
-- Makefile automation
-- Production-ready defaults
-
----
-
-# Directory Structure
-
-```
-compose-postgres/
-├── compose.yml
-├── .env.example
-├── .gitignore
-├── Makefile
-├── README.md
-└── scripts
-    ├── backup.sh
-    ├── restore.sh
-    └── update.sh
-```
-
----
-
-# Quick Start
-
-Copy the example environment file.
-
-```bash
-cp .env.example .env
-```
-
-Edit the environment variables.
-
-```bash
-vim .env
-```
-
-Validate the configuration.
-
-```bash
-docker compose config
-```
-
-Start PostgreSQL.
-
-```bash
-docker compose up -d
-```
-
-Verify the container.
-
-```bash
-docker compose ps
-```
-
----
-
-# Environment Variables
-
-| Variable | Description |
-|----------|-------------|
-| COMPOSE_PROJECT_NAME | Docker project name |
-| POSTGRES_IMAGE | PostgreSQL image tag |
-| POSTGRES_DB | Database name |
-| POSTGRES_USER | Database user |
-| POSTGRES_PASSWORD | Database password |
-| POSTGRES_PORT | Host port |
-| TZ | Time zone |
-
----
-
-# Make Commands
-
-Display available commands.
-
-```bash
-make help
-```
-
-Validate configuration.
-
-```bash
-make config
-```
-
-Start PostgreSQL.
-
-```bash
-make up
-```
-
-Stop PostgreSQL.
-
-```bash
-make down
-```
-
-Restart PostgreSQL.
-
-```bash
-make restart
-```
-
-View logs.
-
-```bash
-make logs
-```
-
-Show container status.
-
-```bash
-make ps
-```
-
-Create backup.
-
-```bash
-make backup
-```
-
-Restore backup.
-
-```bash
-make restore
-```
-
-Update PostgreSQL.
-
-```bash
-make update
-```
-
----
-
-# Backup
-
-Create a compressed PostgreSQL backup.
-
-```bash
-make backup
-```
-
-Backups are stored in:
-
-```
-backups/
-```
-
-Example:
-
-```
-backups/postgres-20260711-214500.sql.gz
-```
-
----
-
-# Restore
-
-Restore a backup.
-
-```bash
-./scripts/restore.sh backups/postgres-YYYYMMDD-HHMMSS.sql.gz
-```
-
-The restore script requires confirmation before overwriting the database.
-
----
-
-# Update
-
-Safely update PostgreSQL.
-
-```bash
-make update
-```
-
-This will:
-
-- Pull the latest image
-- Recreate the container
-- Preserve database data
-- Display container status
-
----
-
-# Security Recommendations
-
-- Never commit `.env`
-- Always use strong passwords
-- Keep backups outside the Docker host
-- Limit access to PostgreSQL
-- Remove host port mappings when only Docker containers require access
-- Review PostgreSQL release notes before major upgrades
+- Use a strong database password
+- Store backups off-host
+- Limit network exposure
+- Remove published ports when PostgreSQL is only accessed by Docker containers
+- Review PostgreSQL release notes before upgrading major versions
 
 ---
 
 # Recommended Usage
 
-This template is intended for applications such as:
+This template is intended for:
 
 - NetBox
 - Gitea
 - Miniflux
-- Docmost
 - Immich
-- OpenProject
-- Future Platform Engineering projects
-
----
-
-# License
-
-MITs
-```
-
-Show container status.
-
-```bash
-make ps
-```
-
-Create backup.
-
-```bash
-make backup
-```
-
-Restore backup.
-
-```bash
-make restore
-```
-
-Update PostgreSQL.
-
-```bash
-make update
-```
-
----
-
-# Backup
-
-Create a compressed PostgreSQL backup.
-
-```bash
-make backup
-```
-
-Backups are stored in:
-
-```
-backups/
-```
-
-Example:
-
-```
-backups/postgres-20260711-214500.sql.gz
-```
-
----
-
-# Restore
-
-Restore a backup.
-
-```bash
-./scripts/restore.sh backups/postgres-YYYYMMDD-HHMMSS.sql.gz
-```
-
-The restore script requires confirmation before overwriting the database.
-
----
-
-# Update
-
-Safely update PostgreSQL.
-
-```bash
-make update
-```
-
-This will:
-
-- Pull the latest image
-- Recreate the container
-- Preserve database data
-- Display container status
-
----
-
-# Security Recommendations
-
-- Never commit `.env`
-- Always use strong passwords
-- Keep backups outside the Docker host
-- Limit access to PostgreSQL
-- Remove host port mappings when only Docker containers require access
-- Review PostgreSQL release notes before major upgrades
-
----
-
-# Recommended Usage
-
-This template is intended for applications such as:
-
-- NetBox
-- Gitea
-- Miniflux
 - Docmost
-- Immich
-- OpenProject
-- Future Platform Engineering projects
-
----
-
-# License
-
-MITs
-
----
-
-# Recommended Usage
-
-This template is intended for applications such as:
-
-- NetBox
-- Gitea
-- Miniflux
-- Docmost
-- Immich
-- OpenProject
-- Future Platform Engineering projects
-
----
-
-# License
-
-MITe
-
-This template is intended for applications such as:
-
-- NetBox
-- Gitea
-- Miniflux
-- Docmost
-- Immich
 - OpenProject
 - Future Platform Engineering projects
 
