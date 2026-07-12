@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  validate:
+    desc: Validate all repository templates
+    cmds:
+      - ./scripts/validate-templates.sh
+
+  compose:basic:
+    desc: Validate the basic Docker Compose template
+    cmds:
+      - docker compose --project-directory docker/compose-basic --env-file docker/compose-basic/.env.example -f docker/compose-basic/compose.yml config
+
+  compose:postgres:
+    desc: Validate the PostgreSQL Docker Compose template
+    cmds:
+      - docker compose --project-directory docker/compose-postgres --env-file docker/compose-postgres/.env.example -f docker/compose-postgres/compose.yml config
+
+  status:
+    desc: Show repository status
+    cmds:
+      - git status
+      - git log --oneline -5
